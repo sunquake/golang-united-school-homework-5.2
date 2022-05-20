@@ -3,28 +3,28 @@ package cache
 import "time"
 
 type Cache struct {
-	m map[string]string
+	m map[string]time.Time
 }
 
 func NewCache() Cache {
-	return Cache{map[time.Now().toString()]""}
+	return Cache{map[time.Now().toString()]time.Now()}
 }
 
 func (c Cache) Get(key string) (string, bool) {
 	//if c.time < time.Now() {
-		return c.m[key], true
+		return c.m[key].toString(), true
 		//}
 	//return "", false
 }
 
 func (c Cache) Put(key, value string) {
-	c.m[key] = value
+	c.m[key] = time.Parse(time.RFC3339, value)
 }
 
 func (c Cache) Keys() []string {
 	var s []string
 	for _, v := range c.m {
-		s = append(s,v)
+		s = append(s,v.toString())
 	}
 	return s
 }
@@ -32,8 +32,8 @@ func (c Cache) Keys() []string {
 func (c Cache) PutTill(key, value string, deadline time.Time) {
 	var s []string
 	for _, v := range c.m {
-		//if
-		s = append(s,v)
+		//if time.Parse(key)
+		s = append(s,v.toString())
 	}
 	return s
 }
