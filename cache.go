@@ -3,32 +3,37 @@ package cache
 import "time"
 
 type Cache struct {
-	m map[string]time.Time
+	data map[string]string
+	dead map[string]time.Time
 }
 
+var cnt int
+
 func NewCache() Cache {
-	return Cache{map[string]time.Time{time.Now().String():time.Now()}}
+	return Cache{data:map[string]string{}, time:map[string]time.Time{}}
 }
 
 func (c Cache) Get(key string) (string, bool) {
-	//if c.time < time.Now() {
-		return c.m[key].String(), true
-		//}
-	//return "", false
+	if c.dead[key].After(time.Now()) {
+		return c.m[key], true
+		}
+	return "", false
 }
 
 func (c Cache) Put(key, value string) {
-	c.m[key],_ = time.Parse(time.RFC3339, value)
+	c.data[key] = value
+	c.dead[key] = 0
 }
 
 func (c Cache) Keys() []string {
 	var s []string
-	for _, v := range c.m {
-		s = append(s,v.String())
+	for k := range c.data {
+		s = append(s, k)
 	}
 	return s
 }
 
 func (c Cache) PutTill(key, value string, deadline time.Time) {
-	
+	c.data[key] = value
+	c.dead[key] = deadline
 }
