@@ -15,6 +15,8 @@ func (c Cache) Get(key string) (string, bool) {
 	if c.dead[key].After(time.Now()) {
 		return c.data[key], true
 		}
+	delete(c.data[key])
+	delete(c.dead[key])
 	return "", false
 }
 
