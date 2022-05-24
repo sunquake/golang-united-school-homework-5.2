@@ -31,7 +31,7 @@ func (c Cache) Put(key, value string) {
 func (c Cache) Keys() []string {
 	var s []string
 	for k := range c.data {
-		s = append(s, k)
+		s = append(s, k.val)
 	}
 	return s
 }
