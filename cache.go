@@ -8,11 +8,11 @@ type ctime struct {
 }
 
 type Cache struct {
-	data map[string]ctime
+	data map[string]*ctime
 }
 
 func NewCache() Cache {
-	return Cache{data:map[string]ctime{}}
+	return Cache{data:map[string]*ctime{}}
 }
 
 func (c Cache) Get(key string) (string, bool) {
@@ -24,7 +24,7 @@ func (c Cache) Get(key string) (string, bool) {
 }
 
 func (c Cache) Put(key, value string) {
-	c.data[key] = ctime{val : value, tim : time.Now().AddDate(100,0,0)}
+	c.data[key] = &ctime{val : value, tim : time.Now().AddDate(100,0,0)}
 }
 
 func (c Cache) Keys() []string {
@@ -36,5 +36,5 @@ func (c Cache) Keys() []string {
 }
 
 func (c Cache) PutTill(key, value string, deadline time.Time) {
-	c.data[key] = ctime{val : value, tim : deadline}
+	c.data[key] = &ctime{val : value, tim : deadline}
 }
