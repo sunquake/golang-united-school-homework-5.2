@@ -24,19 +24,17 @@ func (c Cache) Get(key string) (string, bool) {
 }
 
 func (c Cache) Put(key, value string) {
-	c.data[key].val = value
-	c.dead[key].tim = time.Now().AddDate(100,0,0)
+	c.data[key]{val : value, tim : time.Now().AddDate(100,0,0)}
 }
 
 func (c Cache) Keys() []string {
 	var s []string
 	for k := range c.data {
-		s = append(s, k.val)
+		s = append(s, c.data[k].val)
 	}
 	return s
 }
 
 func (c Cache) PutTill(key, value string, deadline time.Time) {
-	c.data[key].val = value
-	c.dead[key].tim = deadline
+	c.data[key]{val : value, tim : deadline}
 }
